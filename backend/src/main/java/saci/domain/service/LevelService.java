@@ -17,6 +17,16 @@ public class LevelService {
 
     private final LevelRepository levelRepository;
 
+    public List<Level> getAllLevels() {
+        return levelRepository.findAll();
+    }
+
+    public Level getLevelById(Long levelId) {
+        return levelRepository
+                .findById(levelId)
+                .orElseThrow(() -> new NotFoundException("Level Not Found"));
+    }
+
     public void deleteLevelById(long levelId) {
         Optional<Level> level = levelRepository.findById(levelId);
         if (level.isPresent()) {
@@ -37,7 +47,7 @@ public class LevelService {
     public Level createLevel(Level level) {
         int overlappingLevels =
                 levelRepository.overlappingLevelsCounter(
-                        level.getRoleId(), level.getMinCoefficient(), level.getMaxCoefficient());
+                        level.getId(), level.getMinCoefficient(), level.getMaxCoefficient());
 
         if (!LevelValidator.levelIsValid(level, overlappingLevels)) {
             throw new CoefficientOverlapException(
@@ -56,5 +66,24 @@ public class LevelService {
 
     public Optional<Level> findNextLevelBasedOfScore(Long roleId, double score) {
         return levelRepository.findNextLevelByRoleIdAndScore(roleId, score);
+    }
+
+    public Level editLevel(Long levelId, Level updatedLevel) {
+        Level existingLevel =
+                levelRepository
+                        .findById(levelId)
+                        .orElseThrow(() -> new NotFoundException("Level not found"));
+
+        Optional<Level> levelWithSameName = levelRepository.findByName(updatedLevel.getName());
+        if (levelWithSameName.isPresent() && !levelWithSameName.get().getId().equals(levelId)) {
+            throw new AlreadyExistsException("Another level with the same name already exists");
+        }
+
+        existingLevel.setName(updatedLevel.getName());
+        existingLevel.setMinCoefficient(updatedLevel.getMinCoefficient());
+        existingLevel.setMaxCoefficient(updatedLevel.getMaxCoefficient());
+        existingLevel.setLink(updatedLevel.getLink());
+
+        return levelRepository.save(existingLevel);
     }
 }

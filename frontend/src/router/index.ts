@@ -17,15 +17,22 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/role/:id',
+      path: '/role/:roleId',
       name: 'RoleView',
-      component: RoleView
+      component: RoleView,
+    },
+
+    {
+      path: '/level-view/create',
+      component: LevelView,
+      name: 'CreateLevel'
     },
     {
       path: '/level-view/:id',
-      name: 'LevelView',
-      component: LevelView
+      component: LevelView,
+      name: 'EditLevel'
     },
+
     {
       path: '/padawan',
       component: PadawanView,

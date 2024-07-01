@@ -1,6 +1,8 @@
 import type { Level } from '@/domain/Level'
 import { get } from '@/services/http'
 import { loadRoleById } from '../roles/actions'
+import { computed } from 'vue'
+import { levels } from './state'
 
 async function getLevelsByRoleId(roleId: number): Promise<Level[] | undefined> {
   const role = await loadRoleById(roleId)
@@ -17,4 +19,11 @@ async function getLevelsByRoleId(roleId: number): Promise<Level[] | undefined> {
   return role?.levels
 }
 
-export { getLevelsByRoleId }
+const getLevels = computed(() => {
+  return levels?.value
+})
+
+async function getLevelById(levelId: string) {
+  return await get<Level>(`/levels/${levelId}`)
+}
+export { getLevels, getLevelById, getLevelsByRoleId }
