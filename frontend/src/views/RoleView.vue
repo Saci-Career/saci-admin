@@ -25,7 +25,7 @@ const router = useRouter()
 const roleStore = useRolesStore()
 
 onMounted(async () => {
-  const roleId = router.currentRoute.value.params.id as string
+  const roleId = router.currentRoute.value.params.roleId as string
   try {
     role.value = await roleStore.loadRoleById(parseInt(roleId))
   } catch (error) {
