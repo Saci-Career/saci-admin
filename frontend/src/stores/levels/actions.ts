@@ -29,10 +29,10 @@ async function editLevel(level: Level, role: Role): Promise<void> {
 async function saveLevel(level: Level, role: Role): Promise<void> {
   if (level.id) {
     await editLevel(level, role)
-    return
+  } else {
+    await addLevel(level, role)
   }
-
-  await addLevel(level, role)
+  role.levels = role.levels?.sort((a, b) => a.minCoefficient - b.minCoefficient)
 }
 
 export { saveLevel, removeLevel }
