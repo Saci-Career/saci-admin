@@ -48,7 +48,7 @@ public class RoleController {
     public ResponseEntity<Role> createRole(@Valid @RequestBody Role role) {
         try {
             roleService.createRole(role);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return new ResponseEntity<>(role, HttpStatus.CREATED);
         } catch (AlreadyExistsException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
