@@ -1,6 +1,6 @@
 <template>
   <h2>Levels</h2>
-  <ElTable :data="levels" class="FullWidthTable">
+  <ElTable :data="sortedLevels" class="FullWidthTable">
     <ElTableColumn prop="name" label="Levels" />
     <ElTableColumn prop="minCoefficient" label="Minimum Coefficient" />
     <ElTableColumn prop="maxCoefficient" label="Maximum Coefficient" />
@@ -8,7 +8,6 @@
       <template #default="{ row }">
         <div>
           <ElButton @click="openDeleteLevelButton(row)" link size="small">Delete</ElButton>
-
           <ElButton @click="onEditRow(row)" link size="small">Edit</ElButton>
         </div>
       </template>
@@ -21,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { ElTable, ElTableColumn, ElButton } from 'element-plus'
 import type { Level } from '@/domain/Level'
 import RemoveLevelDialog from '@/components/RemoveLevelDialog.vue'
@@ -49,6 +48,10 @@ const openDeleteLevelButton = (row: Level) => {
   levelToDelete.value = Number(row.id)
   deleteDialogVisible.value = true
 }
+
+const sortedLevels = computed(() => {
+  return props.levels?.slice().sort((a, b) => a.minCoefficient - b.minCoefficient)
+})
 </script>
 
 <style scoped lang="scss">
