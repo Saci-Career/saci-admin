@@ -1,6 +1,5 @@
 import { get, post, put, deleteRequest } from '@/services/http'
 import type { Role } from '@/domain/Role'
-import type { Level } from '@/domain/Level'
 import { roles } from './state'
 
 function setRoles(newRoles: Role[]): void {
