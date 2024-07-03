@@ -8,7 +8,7 @@ Saci creates a mechanism, where ACME career managers can create roles, knowledge
 
 This repository is the frontend project for Saci administration, that means, it offers mechanisms and screens for roles, levels and knowledges management. The following diagram shows how each of these entities relate to each other:
 
-<img width="284" alt="image" src="https://github.com/Saci-Career/saci-admin/assets/16262664/5e2d5b35-bb5c-475c-9ae0-f72b21dd1d20">
+![Saci Domain Model drawio](https://github.com/Saci-Career/saci-admin/assets/16262664/9ce1b130-bd3f-4ef0-9d88-1209e39a3fc1)
 
 - Role: role is the main entity in this project. Following the previous examples, roles would be clerks, programmers and managers
 - Level: possible position a worker can be inside a role. Also in the previous example, a manager can be an entry level, a mid level or an advanced manager. These are levels
