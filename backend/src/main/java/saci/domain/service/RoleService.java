@@ -32,11 +32,15 @@ public class RoleService {
     }
 
     public Role editRole(Long roleId, Role updatedRole) {
-        Role existingRole = roleRepository.findById(roleId).orElseThrow(() -> {
-            String errorMessage = "Role not found";
-            log.error(errorMessage);
-            return new NotFoundException(errorMessage);
-        });
+        Role existingRole =
+                roleRepository
+                        .findById(roleId)
+                        .orElseThrow(
+                                () -> {
+                                    String errorMessage = "Role not found";
+                                    log.error(errorMessage);
+                                    return new NotFoundException(errorMessage);
+                                });
 
         existingRole.setName(updatedRole.getName());
         return roleRepository.save(existingRole);
@@ -47,11 +51,13 @@ public class RoleService {
     }
 
     public Role getRoleById(Long roleId) {
-        return roleRepository.findById(roleId).orElseThrow(() -> {
-            String errorMessage = "Role not found";
-            log.error(errorMessage);
-            return new NotFoundException(errorMessage);
-        });
+        return roleRepository
+                .findById(roleId)
+                .orElseThrow(
+                        () -> {
+                            String errorMessage = "Role not found";
+                            log.error(errorMessage);
+                            return new NotFoundException(errorMessage);
+                        });
     }
-
 }
