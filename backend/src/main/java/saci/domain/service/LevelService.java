@@ -32,7 +32,6 @@ public class LevelService {
             levelRepository.deleteById(levelId);
         } else {
             String errorMessage = "Level not found with ID: " + levelId;
-            log.error(errorMessage);
             throw new NotFoundException(errorMessage);
         }
     }
@@ -41,7 +40,6 @@ public class LevelService {
         List<Level> levels = levelRepository.findSortedLevelsByRoleId(roleId);
         if (levels.isEmpty()) {
             String errorMessage = "No levels found for role ID: " + roleId;
-            log.error(errorMessage);
             throw new NotFoundException(errorMessage);
         }
         return levels;

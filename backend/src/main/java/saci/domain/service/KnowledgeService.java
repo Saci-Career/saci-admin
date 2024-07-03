@@ -21,33 +21,28 @@ public class KnowledgeService {
     private final RoleRepository roleRepository;
 
     public Knowledge createKnowledge(Knowledge knowledge) {
-        Role role = roleRepository.findById(knowledge.getRoleId())
-                .orElseThrow(() -> {
-                    String errorMessage = "Role Not Found";
-                    logAndThrowNotFoundException(errorMessage);
-                    return new NotFoundException(errorMessage);
-                });
+        Role role =
+                roleRepository
+                        .findById(knowledge.getRoleId())
+                        .orElseThrow(
+                                () -> {
+                                    String errorMessage = "Role Not Found";
+                                    return new NotFoundException(errorMessage);
+                                });
 
-        boolean knowledgeWithNameExists = role.getKnowledges().stream()
-                .anyMatch(existingKnowledge -> existingKnowledge.getName().equals(knowledge.getName()));
+        boolean knowledgeWithNameExists =
+                role.getKnowledges().stream()
+                        .anyMatch(
+                                existingKnowledge ->
+                                        existingKnowledge.getName().equals(knowledge.getName()));
 
         if (knowledgeWithNameExists) {
-            String errorMessage = "Knowledge with the same name already exists";
-            logAndThrowAlreadyExistsException(errorMessage);
+            String errorMessage = "Knowledge with the same name already exists  ";
+            throw new AlreadyExistsException(errorMessage);
         }
 
         return knowledgeRepository.save(knowledge);
     }
-
-    private void logAndThrowNotFoundException(String errorMessage) {
-        log.error(errorMessage);
-    }
-
-    private void logAndThrowAlreadyExistsException(String errorMessage) {
-        log.error(errorMessage);
-        throw new AlreadyExistsException(errorMessage);
-    }
-
 
     public List<Knowledge> getKnowledges() {
         return knowledgeRepository.findAll();
@@ -59,7 +54,6 @@ public class KnowledgeService {
             knowledgeRepository.deleteById(knowledgeId);
         } else {
             String errorMessage = "Knowledge not found with ID: " + knowledgeId;
-            log.error(errorMessage);
             throw new NotFoundException(errorMessage);
         }
     }
@@ -80,7 +74,6 @@ public class KnowledgeService {
                                 () -> {
                                     String errorMessage =
                                             "Knowledge not found with ID: " + knowledgeId;
-                                    log.error(errorMessage);
                                     return new NotFoundException(errorMessage);
                                 });
 
@@ -89,7 +82,6 @@ public class KnowledgeService {
         if (knowledgeWithSameName.isPresent()
                 && !knowledgeWithSameName.get().getId().equals(knowledgeId)) {
             String errorMessage = "Another knowledge with the same name already exists";
-            log.error(errorMessage);
             throw new AlreadyExistsException(errorMessage);
         }
 

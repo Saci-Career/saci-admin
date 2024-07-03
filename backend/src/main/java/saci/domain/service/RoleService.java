@@ -21,7 +21,6 @@ public class RoleService {
         Optional<Role> optionalRole = roleRepository.findByName(role.getName());
         if (optionalRole.isPresent()) {
             String errorMessage = "Role name already exists: " + role.getName();
-            log.error(errorMessage);
             throw new AlreadyExistsException(errorMessage);
         }
         return roleRepository.save(role);
@@ -56,7 +55,6 @@ public class RoleService {
                 .orElseThrow(
                         () -> {
                             String errorMessage = "Role not found";
-                            log.error(errorMessage);
                             return new NotFoundException(errorMessage);
                         });
     }
