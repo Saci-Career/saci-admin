@@ -21,28 +21,25 @@ public class KnowledgeService {
     private final RoleRepository roleRepository;
 
     public Knowledge createKnowledge(Knowledge knowledge) {
-        Role role =
-                roleRepository
-                        .findById(knowledge.getRoleId())
-                        .orElseThrow(() -> {
-                            String errorMessage = "Role Not Found";
-                            log.error(errorMessage);
-                            return new NotFoundException(errorMessage);
-                        });
+        Role role = roleRepository.findById(knowledge.getRoleId())
+                .orElseThrow(() -> {
+                    String errorMessage = "Role Not Found";
+                    log.error(errorMessage);
+                    return new NotFoundException(errorMessage);
+                });
 
-        boolean knowledgeWithNameExists =
-                role.getKnowledges().stream()
-                        .anyMatch(existingKnowledge ->
-                                existingKnowledge.getName().equals(knowledge.getName()));
+        boolean knowledgeWithNameExists = role.getKnowledges().stream()
+                .anyMatch(existingKnowledge -> existingKnowledge.getName().equals(knowledge.getName()));
 
         if (knowledgeWithNameExists) {
-            String errorMessage = "Knowledge with the same name already exists  ";
+            String errorMessage = "Knowledge with the same name already exists";
             log.error(errorMessage);
             throw new AlreadyExistsException(errorMessage);
         }
 
         return knowledgeRepository.save(knowledge);
     }
+
 
     public List<Knowledge> getKnowledges() {
         return knowledgeRepository.findAll();
@@ -59,7 +56,6 @@ public class KnowledgeService {
         }
     }
 
-
     public Optional<Knowledge> findById(long knowledgeId) {
         return knowledgeRepository.findById(knowledgeId);
     }
@@ -72,11 +68,13 @@ public class KnowledgeService {
         Knowledge existingKnowledge =
                 knowledgeRepository
                         .findById(knowledgeId)
-                        .orElseThrow(() -> {
-                            String errorMessage = "Knowledge not found with ID: " + knowledgeId;
-                            log.error(errorMessage);
-                            return new NotFoundException(errorMessage);
-                        });
+                        .orElseThrow(
+                                () -> {
+                                    String errorMessage =
+                                            "Knowledge not found with ID: " + knowledgeId;
+                                    log.error(errorMessage);
+                                    return new NotFoundException(errorMessage);
+                                });
 
         Optional<Knowledge> knowledgeWithSameName =
                 knowledgeRepository.findByName(updatedKnowledge.getName());
