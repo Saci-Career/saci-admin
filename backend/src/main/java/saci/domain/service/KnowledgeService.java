@@ -52,7 +52,6 @@ public class KnowledgeService {
         Optional<Knowledge> knowledge = knowledgeRepository.findById(knowledgeId);
         if (knowledge.isPresent()) {
             knowledgeRepository.deleteById(knowledgeId);
-            log.info("Deleted knowledge with ID: {}", knowledgeId);
         } else {
             String errorMessage = "Knowledge not found with ID: " + knowledgeId;
             log.error(errorMessage);
