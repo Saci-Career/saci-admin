@@ -2,7 +2,8 @@ import { ErrorMessage } from './messages'
 
 enum HttpServerError {
   HTTP_SERVER_ERROR = 500,
-  HTTP_STATUS_CODE_CONFLICT = 409
+  HTTP_STATUS_CODE_CONFLICT = 409,
+  HTTP_STATUS_BAD_REQUEST = 400
 }
 
 const fetchWrapper = async (url: string, init: RequestInit): Promise<Response> => {

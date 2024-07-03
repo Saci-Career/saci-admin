@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import saci.domain.model.Level;
 import saci.domain.service.LevelService;
+import saci.domain.service.exceptions.CoefficientOverlapException;
 import saci.domain.service.exceptions.NotFoundException;
 
 @RestController
@@ -62,12 +63,18 @@ public class LevelController {
                             @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = Level.class))
-                        })
+                        }),
+                @ApiResponse(responseCode = "400", description = "Coefficient Overlap")
             })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Level createLevel(@RequestBody Level level) {
-        return levelService.createLevel(level);
+    public ResponseEntity<Level> createLevel(@RequestBody Level level) {
+        try {
+            levelService.createLevel(level);
+            return ResponseEntity.ok().build();
+        } catch (CoefficientOverlapException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @Operation(

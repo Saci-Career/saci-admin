@@ -86,7 +86,7 @@ const saveForm = async () => {
   } catch (error: any) {
     if (error.status === HttpServerError.HTTP_STATUS_CODE_CONFLICT) {
       ErrorMessage('This level name already exists')
-    } else if (error.status === HttpServerError.HTTP_SERVER_ERROR) {
+    } else if (error.status === HttpServerError.HTTP_STATUS_BAD_REQUEST) {
       ErrorMessage('Maximum and Minimum range overlap')
     } else {
       ErrorMessage('Unexpected error')
