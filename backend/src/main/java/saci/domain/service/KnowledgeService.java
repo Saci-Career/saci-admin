@@ -92,7 +92,6 @@ public class KnowledgeService {
         existingKnowledge.setWeight(updatedKnowledge.getWeight());
 
         Knowledge savedKnowledge = knowledgeRepository.save(existingKnowledge);
-        log.info("Updated knowledge with ID: {}", knowledgeId);
         return savedKnowledge;
     }
 }

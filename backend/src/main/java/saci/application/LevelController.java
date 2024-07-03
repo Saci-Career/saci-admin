@@ -47,9 +47,8 @@ public class LevelController {
             })
     @DeleteMapping("/{levelId}")
     public ResponseEntity<Void> deleteLevelById(@PathVariable long levelId) {
-            levelService.deleteLevelById(levelId);
-            return ResponseEntity.ok().build();
-
+        levelService.deleteLevelById(levelId);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Create a Level")
@@ -108,8 +107,7 @@ public class LevelController {
             })
     @GetMapping("/sorted/{roleId}")
     public ResponseEntity<List<Level>> getSortedLevels(@PathVariable Long roleId) {
-            List<Level> levels = levelService.getSortedLevelsByRoleIdAsc(roleId);
-            return ResponseEntity.ok(levels);
-
+        List<Level> levels = levelService.getSortedLevelsByRoleIdAsc(roleId);
+        return ResponseEntity.ok(levels);
     }
 }
