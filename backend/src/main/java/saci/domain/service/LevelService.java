@@ -37,7 +37,6 @@ public class LevelService {
         }
     }
 
-
     public List<Level> getSortedLevelsByRoleIdAsc(Long roleId) {
         List<Level> levels = levelRepository.findSortedLevelsByRoleId(roleId);
         if (levels.isEmpty()) {
@@ -51,7 +50,8 @@ public class LevelService {
     public Level createLevel(Level level) {
         isOverlappingLevels(level);
 
-        Optional<Level> optionalLevel = levelRepository.findByRoleIdAndName(level.getRoleId(), level.getName());
+        Optional<Level> optionalLevel =
+                levelRepository.findByRoleIdAndName(level.getRoleId(), level.getName());
         if (optionalLevel.isPresent()) {
             String errorMessage = "Level name already exists for role ID: " + level.getRoleId();
             log.error(errorMessage);

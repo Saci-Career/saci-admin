@@ -47,9 +47,8 @@ public class RoleController {
             })
     @PostMapping
     public ResponseEntity<Role> createRole(@Valid @RequestBody Role role) {
-            roleService.createRole(role);
-            return new ResponseEntity<>(role, HttpStatus.CREATED);
-
+        roleService.createRole(role);
+        return new ResponseEntity<>(role, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Get all of the roles")
