@@ -24,7 +24,7 @@ public class KnowledgeService {
         Role role = roleRepository.findById(knowledge.getRoleId())
                 .orElseThrow(() -> {
                     String errorMessage = "Role Not Found";
-                    log.error(errorMessage);
+                    logAndThrowNotFoundException(errorMessage);
                     return new NotFoundException(errorMessage);
                 });
 
@@ -33,11 +33,19 @@ public class KnowledgeService {
 
         if (knowledgeWithNameExists) {
             String errorMessage = "Knowledge with the same name already exists";
-            log.error(errorMessage);
-            throw new AlreadyExistsException(errorMessage);
+            logAndThrowAlreadyExistsException(errorMessage);
         }
 
         return knowledgeRepository.save(knowledge);
+    }
+
+    private void logAndThrowNotFoundException(String errorMessage) {
+        log.error(errorMessage);
+    }
+
+    private void logAndThrowAlreadyExistsException(String errorMessage) {
+        log.error(errorMessage);
+        throw new AlreadyExistsException(errorMessage);
     }
 
 
