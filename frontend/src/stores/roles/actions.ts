@@ -1,6 +1,5 @@
 import { get, post, put, deleteRequest } from '@/services/http'
 import type { Role } from '@/domain/Role'
-import type { Level } from '@/domain/Level'
 import { roles } from './state'
 
 function setRoles(newRoles: Role[]): void {
@@ -22,8 +21,8 @@ async function addRole(role: Role): Promise<void> {
 }
 
 async function editRoleAction(role: Role): Promise<void> {
-  await put<Role>(`/roles/${role.id}`, role)
-  roles.value = roles.value.map((item) => (item.id === role.id ? role : item))
+  const updatedRole = await put<Role>(`/roles/${role.id}`, role)
+  roles.value = roles.value.map((item) => (item.id === role.id ? updatedRole : item))
 }
 
 async function removeRole(roleId: number): Promise<void> {

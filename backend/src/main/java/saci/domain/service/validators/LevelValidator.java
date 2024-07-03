@@ -13,11 +13,11 @@ public final class LevelValidator {
         return newLevel.getMinCoefficient() >= 0 && newLevel.getMinCoefficient() <= 100;
     }
 
-    public static boolean levelsAreOverlapping(int overlappingLevelsCounter) {
+    public static boolean levelsAreOverlapping(long overlappingLevelsCounter) {
         return overlappingLevelsCounter != 0;
     }
 
-    public static boolean levelIsValid(Level newLevel, int overlappingLevelsCounter) {
+    public static boolean levelIsValid(Level newLevel, long overlappingLevelsCounter) {
         return maxCoefficientIsValid(newLevel)
                 && minCoefficientIsValid(newLevel)
                 && !levelsAreOverlapping(overlappingLevelsCounter);

@@ -17,4 +17,7 @@ async function getLevelsByRoleId(roleId: number): Promise<Level[] | undefined> {
   return role?.levels
 }
 
-export { getLevelsByRoleId }
+async function getLevelById(levelId: string) {
+  return await get<Level>(`/levels/${levelId}`)
+}
+export { getLevelsByRoleId, getLevelById }

@@ -12,12 +12,12 @@ import saci.domain.model.Level;
 public interface LevelRepository extends JpaRepository<Level, Long> {
     Optional<Level> findByName(String name);
 
-    List<Level> findByRoleId(Long roleId);
+    Optional<Level> findByRoleIdAndName(Long roleId, String name);
 
     @Query(
-            "SELECT COUNT(l) FROM Level l WHERE l.roleId = :roleId AND "
+            "SELECT l FROM Level l WHERE l.roleId = :roleId AND "
                     + "(l.minCoefficient < :maxCoefficient AND l.maxCoefficient > :minCoefficient)")
-    int overlappingLevelsCounter(
+    List<Level> overlappingLevelsCounter(
             @Param("roleId") Long roleId,
             @Param("minCoefficient") Integer minCoefficient,
             @Param("maxCoefficient") Integer maxCoefficient);
@@ -28,7 +28,7 @@ public interface LevelRepository extends JpaRepository<Level, Long> {
             @Param("roleId") Long roleId, @Param("score") double score);
 
     @Query(
-            "SELECT l FROM Level l WHERE l.roleId = :roleId AND CAST(l.minCoefficient AS double) > :score ORDER BY l.minCoefficient ASC")
+            "SELECT l FROM Level l WHERE l.roleId = :roleId AND CAST(l.minCoefficient AS double) > :score ORDER BY l.minCoefficient ASC LIMIT 1")
     Optional<Level> findNextLevelByRoleIdAndScore(
             @Param("roleId") Long roleId, @Param("score") double score);
 

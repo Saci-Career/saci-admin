@@ -4,4 +4,5 @@ export interface Level {
   minCoefficient: number
   maxCoefficient: number
   link: string
+  roleId?: number
 }

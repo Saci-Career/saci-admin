@@ -18,7 +18,7 @@ const router = useRouter()
 const originalRoleName = ref('')
 
 const navigateToRoleDetails = (row: Role) => {
-  router.push({ name: 'RoleView', params: { id: row.id } })
+  router.push({ name: 'RoleView', params: { roleId: row.id } })
 }
 
 const openUpdateDialog = (row: Role) => {

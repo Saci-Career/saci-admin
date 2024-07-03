@@ -1,4 +1,4 @@
-import { deleteRequest, post } from '@/services/http'
+import { deleteRequest, get, post, put } from '@/services/http'
 import type { Level } from '@/domain/Level'
 import type { Role } from '@/domain/Role'
 import { roles } from '@/stores/roles/state'
@@ -16,4 +16,14 @@ async function addLevel(level: Level, role: Role): Promise<void> {
   role.levels?.push(level)
 }
 
-export { removeLevel, addLevel }
+async function editLevel(level: Level, role: Role): Promise<void> {
+  await put<Level[]>(`/levels/${level.id}`, level)
+  role.levels = role.levels.map((item) => {
+    if (item.id === level.id) {
+      return level
+    }
+    return item
+  })
+}
+
+export { editLevel, addLevel, removeLevel }

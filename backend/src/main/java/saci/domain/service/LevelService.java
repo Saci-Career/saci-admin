@@ -2,7 +2,6 @@ package saci.domain.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -46,7 +45,8 @@ public class LevelService {
                         level.getRoleId(), level.getMinCoefficient(), level.getMaxCoefficient());
 
         if (!LevelValidator.levelIsValid(level, overlappingLevels)) {
-            String messagelevel = "Error Creating the Level: Overlapping Coefficients or Invalid Coefficients";
+            String messagelevel =
+                    "Error Creating the Level: Overlapping Coefficients or Invalid Coefficients";
             log.error(messagelevel);
             throw new CoefficientOverlapException(messagelevel);
         }

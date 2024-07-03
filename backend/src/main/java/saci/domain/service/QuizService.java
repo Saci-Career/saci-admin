@@ -47,7 +47,7 @@ public class QuizService {
             throw new IllegalArgumentException("Total weight is zero, invalid request.");
         }
 
-        double score = (totalWeightedScore / (MAX_WEIGHT * totalWeight)) * PERCENTAGE;
+        int score = (int) ((totalWeightedScore / (MAX_WEIGHT * totalWeight)) * PERCENTAGE);
 
         Optional<Level> currentLevel = levelService.findLevelByScore(role.getId(), score);
         Optional<Level> nextLevel = levelService.findNextLevelBasedOfScore(role.getId(), score);

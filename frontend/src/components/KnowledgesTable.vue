@@ -46,12 +46,12 @@ const isDialogVisible = ref(false)
 const selectedKnowledge = ref<Knowledge | undefined>()
 
 defineProps<{
-  knowledges: Knowledge[]
+  knowledges?: Knowledge[]
 }>()
 
 onMounted(async () => {
-  roleId.value = router.currentRoute.value.params.id as string
-  role.value = await roleStore.loadRoleById(roleId.value.toString())
+  roleId.value = router.currentRoute.value.params.roleId as string
+  role.value = await roleStore.loadRoleById(parseInt(roleId.value))
 })
 
 const openCreateDialog = () => {
