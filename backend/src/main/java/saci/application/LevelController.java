@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +25,7 @@ import saci.domain.service.LevelService;
 import saci.domain.service.exceptions.CoefficientOverlapException;
 import saci.domain.service.exceptions.NotFoundException;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/levels")
 @RequiredArgsConstructor
@@ -45,12 +47,9 @@ public class LevelController {
             })
     @DeleteMapping("/{levelId}")
     public ResponseEntity<Void> deleteLevelById(@PathVariable long levelId) {
-        try {
             levelService.deleteLevelById(levelId);
             return ResponseEntity.ok().build();
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+
     }
 
     @Operation(summary = "Create a Level")
@@ -109,11 +108,8 @@ public class LevelController {
             })
     @GetMapping("/sorted/{roleId}")
     public ResponseEntity<List<Level>> getSortedLevels(@PathVariable Long roleId) {
-        try {
             List<Level> levels = levelService.getSortedLevelsByRoleIdAsc(roleId);
             return ResponseEntity.ok(levels);
-        } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+
     }
 }

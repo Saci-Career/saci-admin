@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import saci.domain.model.Role;
 import saci.domain.service.RoleService;
-import saci.domain.service.exceptions.AlreadyExistsException;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/roles")
 @RequiredArgsConstructor
@@ -46,12 +47,9 @@ public class RoleController {
             })
     @PostMapping
     public ResponseEntity<Role> createRole(@Valid @RequestBody Role role) {
-        try {
             roleService.createRole(role);
             return new ResponseEntity<>(role, HttpStatus.CREATED);
-        } catch (AlreadyExistsException ex) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+
     }
 
     @Operation(summary = "Get all of the roles")

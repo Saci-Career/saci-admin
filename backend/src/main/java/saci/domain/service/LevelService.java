@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import saci.domain.model.Level;
 import saci.domain.service.exceptions.AlreadyExistsException;
@@ -12,6 +13,7 @@ import saci.domain.service.exceptions.NotFoundException;
 import saci.domain.service.validators.LevelValidator;
 import saci.infrastructure.LevelRepository;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LevelService {
@@ -29,24 +31,31 @@ public class LevelService {
         if (level.isPresent()) {
             levelRepository.deleteById(levelId);
         } else {
-            throw new NotFoundException("Level not found with ID: " + levelId);
+            String errorMessage = "Level not found with ID: " + levelId;
+            log.error(errorMessage);
+            throw new NotFoundException(errorMessage);
         }
     }
+
 
     public List<Level> getSortedLevelsByRoleIdAsc(Long roleId) {
         List<Level> levels = levelRepository.findSortedLevelsByRoleId(roleId);
         if (levels.isEmpty()) {
-            throw new NotFoundException("No levels found for role ID: " + roleId);
+            String errorMessage = "No levels found for role ID: " + roleId;
+            log.error(errorMessage);
+            throw new NotFoundException(errorMessage);
         }
         return levels;
     }
 
     public Level createLevel(Level level) {
         isOverlappingLevels(level);
-        Optional<Level> optionalLevel =
-                levelRepository.findByRoleIdAndName(level.getRoleId(), level.getName());
+
+        Optional<Level> optionalLevel = levelRepository.findByRoleIdAndName(level.getRoleId(), level.getName());
         if (optionalLevel.isPresent()) {
-            throw new AlreadyExistsException("Level name already exists");
+            String errorMessage = "Level name already exists for role ID: " + level.getRoleId();
+            log.error(errorMessage);
+            throw new AlreadyExistsException(errorMessage);
         }
         return levelRepository.save(level);
     }
