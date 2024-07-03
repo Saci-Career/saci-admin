@@ -15,38 +15,32 @@
     </ElTableColumn>
   </ElTable>
   <div class="NewLevel">
-    <ElButton type="primary" @click="redirectToLevelView()"> Create Level </ElButton>
+    <ElButton type="primary" @click="onCreateLevel()"> Create Level </ElButton>
   </div>
   <RemoveLevelDialog v-model:visible="deleteDialogVisible" :levelToDelete="levelToDelete" />
 </template>
 
 <script setup lang="ts">
-import { ref, onUpdated } from 'vue'
+import { ref } from 'vue'
 import { ElTable, ElTableColumn, ElButton } from 'element-plus'
-import type { Knowledge } from '@/domain/Knowledge'
-import type { Role } from '@/domain/Role'
 import type { Level } from '@/domain/Level'
 import RemoveLevelDialog from '@/components/RemoveLevelDialog.vue'
 import { useRouter } from 'vue-router'
 
 const props = defineProps<{
   levels?: Level[]
+  roleId?: number
 }>()
 
 const router = useRouter()
-const roleId = ref<number>()
 
-const redirectToLevelView = () => {
-  router.push({ name: 'LevelView', query: { roleId: roleId.value } })
+const onCreateLevel = () => {
+  router.push({ name: 'LevelView', query: { roleId: props.roleId } })
 }
 
 const onEditRow = (row: Level) => {
-  router.push({ name: 'LevelView', params: { levelId: row.id } })
+  router.push({ name: 'LevelView', params: { levelId: row.id }, query: { roleId: props.roleId } })
 }
-
-onUpdated(() => {
-  roleId.value = props.levels && props.levels[0].roleId
-})
 
 const deleteDialogVisible = ref(false)
 const levelToDelete = ref(0)

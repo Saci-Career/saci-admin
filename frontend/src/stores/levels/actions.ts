@@ -18,7 +18,7 @@ async function addLevel(level: Level, role: Role): Promise<void> {
 
 async function editLevel(level: Level, role: Role): Promise<void> {
   await put<Level[]>(`/levels/${level.id}`, level)
-  role.levels = role.levels.map((item) => {
+  role.levels = role.levels?.map((item) => {
     if (item.id === level.id) {
       return level
     }
@@ -26,4 +26,13 @@ async function editLevel(level: Level, role: Role): Promise<void> {
   })
 }
 
-export { editLevel, addLevel, removeLevel }
+async function saveLevel(level: Level, role: Role): Promise<void> {
+  if (level.id) {
+    await editLevel(level, role)
+    return
+  }
+
+  await addLevel(level, role)
+}
+
+export { saveLevel, removeLevel }
