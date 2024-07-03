@@ -5,7 +5,7 @@
         <img src="@/assets/images/logo-and-lettering.svg" alt="Saci Logo" />
       </div>
       <h1>{{ role?.name }}</h1>
-      <LevelsTable :levels="role?.levels!" />
+      <LevelsTable :levels="role?.levels!" :roleId="role?.id" />
       <KnowledgesTable :knowledges="role?.knowledges!" />
     </div>
   </div>
