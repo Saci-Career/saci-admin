@@ -11,9 +11,8 @@ const fetchWrapper = async (url: string, init: RequestInit): Promise<Response> =
     'Content-Type': 'application/json',
     Accept: 'application/json'
   })
-
-  // TODO: create an env file to store the URL
-  return await fetch(`http://localhost:8080/api${url}`, {
+  const saciPath = import.meta.env.VITE_BASE_URL
+  return await fetch(`${saciPath}/api${url}`, {
     ...init,
     mode: 'cors',
     headers
