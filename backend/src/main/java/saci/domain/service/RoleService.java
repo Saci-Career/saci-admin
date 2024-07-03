@@ -3,12 +3,14 @@ package saci.domain.service;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import saci.domain.model.Role;
 import saci.domain.service.exceptions.AlreadyExistsException;
 import saci.domain.service.exceptions.NotFoundException;
 import saci.infrastructure.RoleRepository;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class RoleService {
@@ -18,7 +20,9 @@ public class RoleService {
     public Role createRole(Role role) {
         Optional<Role> optionalRole = roleRepository.findByName(role.getName());
         if (optionalRole.isPresent()) {
-            throw new AlreadyExistsException("Role name already exists");
+            String errorMessage = "Role name already exists: " + role.getName();
+            log.error(errorMessage);
+            throw new AlreadyExistsException(errorMessage);
         }
         return roleRepository.save(role);
     }
@@ -28,10 +32,12 @@ public class RoleService {
     }
 
     public Role editRole(Long roleId, Role updatedRole) {
+        String errorMessage = "Role not found";
+        log.error(errorMessage);
         Role existingRole =
                 roleRepository
                         .findById(roleId)
-                        .orElseThrow(() -> new NotFoundException("Role not found"));
+                        .orElseThrow(() -> new NotFoundException(errorMessage));
 
         existingRole.setName(updatedRole.getName());
 
@@ -43,8 +49,9 @@ public class RoleService {
     }
 
     public Role getRoleById(Long roleId) {
+        String errorMessage = "Role not found";
         return roleRepository
                 .findById(roleId)
-                .orElseThrow(() -> new NotFoundException("Role Not Found"));
+                .orElseThrow(() -> new NotFoundException(errorMessage));
     }
 }

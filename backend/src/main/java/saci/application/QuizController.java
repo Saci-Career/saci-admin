@@ -48,11 +48,8 @@ public class QuizController {
             })
     @PostMapping("/evaluate-answers")
     public ResponseEntity<ScoreResponse> evaluateAnswer(@Valid @RequestBody ScoreRequest request) {
-        try {
             ScoreResponse response = quizService.evaluateAnswer(request);
             return ResponseEntity.ok(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+
     }
 }

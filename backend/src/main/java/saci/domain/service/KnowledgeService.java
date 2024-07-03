@@ -3,6 +3,7 @@ package saci.domain.service;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import saci.domain.model.Knowledge;
 import saci.domain.model.Role;
@@ -11,6 +12,7 @@ import saci.domain.service.exceptions.NotFoundException;
 import saci.infrastructure.KnowledgeRepository;
 import saci.infrastructure.RoleRepository;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class KnowledgeService {
@@ -21,17 +23,22 @@ public class KnowledgeService {
     public Knowledge createKnowledge(Knowledge knowledge) {
         Role role =
                 roleRepository
-                        .findById((knowledge.getRoleId()))
-                        .orElseThrow(() -> new NotFoundException("Role Not Found"));
+                        .findById(knowledge.getRoleId())
+                        .orElseThrow(() -> {
+                            String errorMessage = "Role Not Found";
+                            log.error(errorMessage);
+                            return new NotFoundException(errorMessage);
+                        });
+
         boolean knowledgeWithNameExists =
                 role.getKnowledges().stream()
-                        .anyMatch(
-                                existingKnowledge ->
-                                        existingKnowledge.getName().equals(knowledge.getName()));
+                        .anyMatch(existingKnowledge ->
+                                existingKnowledge.getName().equals(knowledge.getName()));
 
         if (knowledgeWithNameExists) {
-            throw new AlreadyExistsException(
-                    "Knowledge with the same name already exists in this role");
+            String errorMessage = "Knowledge with the same name already exists  ";
+            log.error(errorMessage);
+            throw new AlreadyExistsException(errorMessage);
         }
 
         return knowledgeRepository.save(knowledge);
@@ -45,10 +52,14 @@ public class KnowledgeService {
         Optional<Knowledge> knowledge = knowledgeRepository.findById(knowledgeId);
         if (knowledge.isPresent()) {
             knowledgeRepository.deleteById(knowledgeId);
+            log.info("Deleted knowledge with ID: {}", knowledgeId);
         } else {
-            throw new NotFoundException("Knowledge not found with ID: " + knowledgeId);
+            String errorMessage = "Knowledge not found with ID: " + knowledgeId;
+            log.error(errorMessage);
+            throw new NotFoundException(errorMessage);
         }
     }
+
 
     public Optional<Knowledge> findById(long knowledgeId) {
         return knowledgeRepository.findById(knowledgeId);
@@ -62,18 +73,26 @@ public class KnowledgeService {
         Knowledge existingKnowledge =
                 knowledgeRepository
                         .findById(knowledgeId)
-                        .orElseThrow(() -> new NotFoundException("Knowledge not found"));
+                        .orElseThrow(() -> {
+                            String errorMessage = "Knowledge not found with ID: " + knowledgeId;
+                            log.error(errorMessage);
+                            return new NotFoundException(errorMessage);
+                        });
 
         Optional<Knowledge> knowledgeWithSameName =
                 knowledgeRepository.findByName(updatedKnowledge.getName());
         if (knowledgeWithSameName.isPresent()
                 && !knowledgeWithSameName.get().getId().equals(knowledgeId)) {
-            throw new AlreadyExistsException("Another knowledge with the same name already exists");
+            String errorMessage = "Another knowledge with the same name already exists";
+            log.error(errorMessage);
+            throw new AlreadyExistsException(errorMessage);
         }
 
         existingKnowledge.setName(updatedKnowledge.getName());
         existingKnowledge.setWeight(updatedKnowledge.getWeight());
 
-        return knowledgeRepository.save(existingKnowledge);
+        Knowledge savedKnowledge = knowledgeRepository.save(existingKnowledge);
+        log.info("Updated knowledge with ID: {}", knowledgeId);
+        return savedKnowledge;
     }
 }
