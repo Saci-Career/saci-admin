@@ -7,9 +7,9 @@
     <ElTableColumn fixed="right" label="Actions" width="150">
       <template #default="{ row }">
         <div>
-          <ElButton @click="openDeleteLevelButton(row)" type="text" size="small">Delete</ElButton>
+          <ElButton @click="openDeleteLevelButton(row)" link size="small">Delete</ElButton>
 
-          <ElButton @click="onEditRow(row)" type="text" size="small">Edit</ElButton>
+          <ElButton @click="onEditRow(row)" link size="small">Edit</ElButton>
         </div>
       </template>
     </ElTableColumn>
@@ -23,8 +23,6 @@
 <script setup lang="ts">
 import { ref, onUpdated } from 'vue'
 import { ElTable, ElTableColumn, ElButton } from 'element-plus'
-import type { Knowledge } from '@/domain/Knowledge'
-import type { Role } from '@/domain/Role'
 import type { Level } from '@/domain/Level'
 import RemoveLevelDialog from '@/components/RemoveLevelDialog.vue'
 import { useRouter } from 'vue-router'

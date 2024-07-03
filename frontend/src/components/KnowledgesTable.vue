@@ -6,8 +6,8 @@
     <ElTableColumn fixed="right" label="Actions" width="150">
       <template #default="{ row }">
         <div>
-          <ElButton @click="onClickDelete(row)" type="text" size="small">Delete</ElButton>
-          <ElButton @click="openEditDialog(row)" type="text" size="small">Edit</ElButton>
+          <ElButton @click="onClickDelete(row)" link size="small">Delete</ElButton>
+          <ElButton @click="openEditDialog(row)" link size="small">Edit</ElButton>
         </div>
       </template>
     </ElTableColumn>

@@ -128,8 +128,8 @@ const createRole = async () => {
         </ElTableColumn>
         <ElTableColumn fixed="right" label="Actions" width="150">
           <template #default="{ row }">
-            <ElButton @click="openDeleteDialog(row)" type="text" size="small">Delete</ElButton>
-            <ElButton @click="openUpdateDialog(row)" type="text" size="small">Edit</ElButton>
+            <ElButton @click="openDeleteDialog(row)" link size="small">Delete</ElButton>
+            <ElButton @click="openUpdateDialog(row)" link size="small">Edit</ElButton>
           </template>
         </ElTableColumn>
       </ElTable>
