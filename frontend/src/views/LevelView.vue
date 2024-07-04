@@ -101,10 +101,9 @@ const redirectToRoleView = () => {
 
 <style scoped lang="scss">
 .Container {
-  padding-top: 20px;
   width: 800px;
   margin: auto;
-  padding-top: 5rem;
+  padding-top: 5vh;
   text-align: center;
 
   .Form {

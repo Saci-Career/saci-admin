@@ -38,23 +38,18 @@ onMounted(async () => {
 .PageWrapper {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
+
   h1 {
     padding-bottom: 40px;
   }
 }
 
 .TableContainer {
-  width: 800px;
-  height: auto;
-  margin: auto;
-  .ImageContainer {
-    margin-top: 50px;
+  margin: 5vh 0;
 
+  .ImageContainer {
     img {
-      padding-top: 20px;
       width: 100px;
     }
     text-align: center;
