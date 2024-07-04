@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import saci.domain.model.Level;
 import saci.domain.service.LevelService;
 import saci.domain.service.exceptions.CoefficientOverlapException;
-import saci.domain.service.exceptions.NotFoundException;
 
 @Slf4j
 @RestController
