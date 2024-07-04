@@ -16,7 +16,7 @@ public interface LevelRepository extends JpaRepository<Level, Long> {
 
     @Query(
             "SELECT l FROM Level l WHERE l.roleId = :roleId AND "
-                    + "(l.minCoefficient < :maxCoefficient AND l.maxCoefficient > :minCoefficient)")
+                    + "(l.minCoefficient <= :maxCoefficient AND l.maxCoefficient >= :minCoefficient)")
     List<Level> overlappingLevelsCounter(
             @Param("roleId") Long roleId,
             @Param("minCoefficient") Integer minCoefficient,

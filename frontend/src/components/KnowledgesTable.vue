@@ -1,7 +1,7 @@
 <template>
   <h2>Knowledges</h2>
   <ElTable :data="knowledges" style="width: 100%">
-    <ElTableColumn prop="name" label="Knowledges" />
+    <ElTableColumn prop="name" label="Knowledges" width="400" />
     <ElTableColumn prop="weight" label="Weight" width="450" />
     <ElTableColumn fixed="right" label="Actions" width="150">
       <template #default="{ row }">
