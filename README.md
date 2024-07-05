@@ -1,4 +1,4 @@
-# Saci Client
+# Saci Admin
 
 This project is a result of a partnership between Escola Profissional Bento de Jesus Caraça and Kuehne+Nagel. It was developed by intern students (check the contributors)
 
